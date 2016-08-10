@@ -9,9 +9,7 @@ This is a repo of:
 
 ###My two favorite places to file FOIAs are:
 
-[MuckRock](https://www.muckrock.com/)
-
-...(MuckRock is also a good place to see and piggy back off of what other people have FOIA-ed)
+[MuckRock](https://www.muckrock.com/) (also a good place to see and piggy back off of what other people have FOIA-ed)
 
 [DC FOIA Portal](https://foia-dc.gov/palMain.aspx)
 
