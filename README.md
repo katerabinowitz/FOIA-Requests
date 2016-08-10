@@ -19,6 +19,6 @@ Much of this originated from the guidance of Justin Grimes. If you find the info
 
 Generally, I’ve found agencies to be very helpful and accommodating. Their first response may not be exactly what you’re looking for, or overlook some of the fields you requested, but it can be an iterative process.
 
-The formatting of data received through a FOIA request may not be ideal. Each folder in this repo is a different FOIA request I’ve submitted. It includes the resulting documents (except where there’s confidential data I haven’t yet anonymized or removed), and my transformations as a work in progress. Personally, I hope it keeps me track with data cleaning. But maybe it also gives you an idea of what you might expect in your own FOIA adventures and presents a way to tackle common difficult data formats (and, of course, suggestions always welcome).
+The formatting of data received through a FOIA request may not be ideal. Each folder in this repo is a different FOIA request I’ve submitted. It includes the resulting documents (except where there’s confidential data I haven’t yet anonymized or removed), and my transformations as a work in progress. Personally, I hope it keeps me on track with data cleaning. But maybe it also gives you an idea of what you might expect in your own FOIA adventures and presents a way to tackle common difficult data formats (and, of course, suggestions always welcome).
 
 Questions? Comments? Resources? Submit a pull request or email me at datalensdc@gmail.com.
