@@ -6,8 +6,10 @@
 
 ##What I received:
 Oh. boy. First I received [an image PDF](https://github.com/katerabinowitz/FOIA-Requests/blob/master/Pharmacy%20Locations/FOIA%20Request%20-%20DC%20Pharmacies%20(Rabinowitz)%202016-FOIA-04908.pdf), 
-which is to say they printed out an Excel sheet, scanned it, and sent that to me. I explained and asked for a native PDF or the Excel. They [kindly provided a native PDF,](https://github.com/katerabinowitz/FOIA-Requests/blob/master/Pharmacy%20Locations/DC%20Resident%20Pharmacies_8%205%202016.pdf),
-the format of which is bit iffy. *Please note I deleted the last four pages of the PDF because it included personal email addresses of the pharmacy contacts.*
+which is to say they printed out an Excel sheet, scanned it, and sent. I explained and asked for a native PDF or the Excel. They [kindly provided a native PDF,](https://github.com/katerabinowitz/FOIA-Requests/blob/master/Pharmacy%20Locations/DC%20Resident%20Pharmacies_8%205%202016.pdf),
+the format of which is bit iffy. *Please note I deleted the last four pages of the PDF because it included personal email addresses of the pharmacy contacts.* 
+
+Additionally, you'll notice the address is not for the individual pharmacy location, but headquarters (for instance, CVS in Woonsocket, RI). I brought this up with DOH, as I had requested the pharmarcy locations and was told I could merge with the 2013 document available online for addresses. 
 
 ##What I've done (so far):
 Plan to convert to .csv
