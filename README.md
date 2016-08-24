@@ -17,6 +17,8 @@ This is a repo of:
 
 Here is my [generic FOIA request template.](https://github.com/katerabinowitz/FOIA-Requests/blob/master/requestTemplate.md)
 
+Sometimes, agencies don't respond within the required 15 business days and you'll need to file an appeal. [Here is my appeal template for when agencies don't respond.](https://github.com/katerabinowitz/FOIA-Requests/blob/master/Non%20Response%20Template.md)
+
 Much of this originated from the guidance of Justin Grimes. If you find the information here helpful consider [rating him highly today.](https://justgrimes.review/)
 
 Generally, I’ve found agencies to be very helpful and accommodating. Their first response may not be exactly what you’re looking for, or overlook some of the fields you requested, but it can be an iterative process.
