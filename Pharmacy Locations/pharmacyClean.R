@@ -68,13 +68,14 @@ out13<-subset(out13,out13$status!="NA")
 pharm2<-merge(out13, out16, by.x="status",by.y="PHARMACY.NAME")[c(1:2,4:8)]
 colnames(pharm2)[c(1)]<-"PHARMACY.NAME"
 
-#clean up pharmacies that are opened after 2013 report
+#clean up pharmacies that are opened after 2013 report and remove those that are closed / hospital / jail
 out162<-subset(out16, !(out16$PHARMACY.NAME %in% pharm2$PHARMACY.NAME))
 out162<-subset(out162,!(grepl("KAISERPERMANENTE|MEDSTAR|FOERSPHARMACYK|SIBLEY|CENTRALDETENTION|MORTON|AIDSHEALTHCARE|GOODHOPECARE",out162$PHARMACY.NAME)))
 
 out162$ADDRESS<-ifelse(out162$ADDRESS=="ONE CVS DR","3700 NEWARK ST NW",
                        ifelse(out162$ADDRESS=="645 HST NE","645 H ST NE",
-                              out162$ADDRESS))
+                            ifelse(out162$ADDRESS=="4551 FORBES BLVD","3830 Georgia Ave NW",
+                              out162$ADDRESS)))
 out162$ADDRESS<-gsub("  "," ",out162$ADDRESS)
 
 pharm<-pharm[c(1,3)]
@@ -95,9 +96,9 @@ pharmWard <- over(addAll, ward)[c(4)]
 
 pharmacy<-cbind(pharmacy,pharmGeo,pharmWard)
 pharmacy<-pharmacy[order(pharmacy$WARD_ID),]
-#fix NA ward, should be ward 3
-pharmacy$WARD_ID<-ifelse(is.na(pharmacy$WARD_ID), 3, pharmacy$WARD_ID)
+
+table(pharmacy$WARD_ID)
 
 #output
-write.csv("DCPharmacyLocations2016.csv", row.names=FALSE)
+write.csv(pharmacy,"DCPharmacyLocations2016.csv", row.names=FALSE)
 
