@@ -11,8 +11,8 @@ ll <- read.csv("LL0816_filled.csv", stringsAsFactors=FALSE, strip.white=TRUE)
 ### remove non-nightlife and hold years
 ### remove non-nightlife and hold years
 remove <- ll %>% subset(grepl("1720|Cosi|Chipotle|Bon Appetit M|We Work|Giant|Whole Foods|International Trade Center|Sports Club|Bar 21|
-                              JBS Ventures, LLC|Jose|Fuel Pizza|3001 M Street NW, LP|Apartments|World Bank|No trade name|No Trade Name|
-                              Law Group|Restaurant Associates|Eastbanc|Heat|INTERNATIONAL HOUSE OF PONG",
+                              |JBS Ventures, LLC|Jose|Fuel Pizza|3001 M Street NW, LP|Apartments|World Bank|No trade name|No Trade Name|
+                              |Law Group|Restaurant Associates|Eastbanc|Heat|INTERNATIONAL HOUSE OF PONG",
                               ll$name)) %>% 
   distinct(license, .keep_all = TRUE)
 ll <- ll %>% subset(!(license %in% remove$license))
@@ -34,17 +34,17 @@ double2 <- double %>% subset(ct>1) %>%
          name=gsub("Cobalt/ 30 Degrees|Cobalt/30°|Cobalt/ 30\nDegrees","Cobalt",name),
          
          name = ifelse(name=="Napoleon/Hierarchy/Cru","Napoleon",
-                       ifelse(name=="Ben's Chili Bowl / Ben's Upstairs/Ten 01","Ben's Chili Bowl / Ben's Upstairs",
-                              ifelse(name=="Acqua al 2/Suna/Harold Black Bar" | name=="Acqua al\n2/Suna/Har","Acqua al 2/Harold Black Bar",
-                                     ifelse(name=="Suna","Acqua al 2/Suna/Harold Black Bar",
-                                            ifelse(name=="Cobalt/Lev", "Cobalt/Level One",
-                                                   ifelse(license=="ABRA081092" & year==14, "M.I.A.",
-                                                          ifelse(license=="ABRA081092" & year==13,"M.I.A",
-                                                                 ifelse(license=="ABRA081092" & year==12,"Lupe/M.I.A.",
-                                                                        ifelse(license=="ABRA081092" & year==11,"Spot/Lupe/M.I.A.",
-                                                                               ifelse(license=="ABRA081092" & year==10, "Spot/Lupe", 
-                                                                                      ifelse(name=="Hanks Oyster Bar (Duplicate License 07/15/2014)","Hanks Oyster Bar",
-                                                                                             ifelse(name=="Darlington House: Cantina/Kitchen/Library","Darlington House",name)))))))))))))
+                  ifelse(name=="Ben's Chili Bowl / Ben's Upstairs/Ten 01","Ben's Chili Bowl / Ben's Upstairs",
+                    ifelse(name=="Acqua al 2/Suna/Harold Black Bar" | name=="Acqua al\n2/Suna/Har","Acqua al 2/Harold Black Bar",
+                      ifelse(name=="Suna","Acqua al 2/Suna/Harold Black Bar",
+                        ifelse(name=="Cobalt/Lev", "Cobalt/Level One",
+                          ifelse(license=="ABRA081092" & year==14, "M.I.A.",
+                            ifelse(license=="ABRA081092" & year==13,"M.I.A",
+                             ifelse(license=="ABRA081092" & year==12,"Lupe/M.I.A.",
+                               ifelse(license=="ABRA081092" & year==11,"Spot/Lupe/M.I.A.",
+                                ifelse(license=="ABRA081092" & year==10, "Spot/Lupe", 
+                                 ifelse(name=="Hanks Oyster Bar (Duplicate License 07/15/2014)","Hanks Oyster Bar",
+                                  ifelse(name=="Darlington House: Cantina/Kitchen/Library","Darlington House",name)))))))))))))
 
 double <- double %>% subset(!(license %in% double2$license))
 double1 <- rbind(double,double2) %>% 
@@ -76,20 +76,20 @@ change <- llNoDouble %>% subset(X==1) %>%
   arrange(license, year) %>%
   distinct(license, year, .keep_all = TRUE) %>%
   mutate(nChange=ifelse(license=="ABRA000882" & year==11, 1,
-                        ifelse(license=="ABRA000882" & year==13, NA,
-                               ifelse(license=="ABRA000882" & year==15, 2,
-                                      ifelse(license=="ABRA060401" & year==15, 2,
-                                             ifelse(license=="ABRA060678" & year==16, 2, 
-                                                    ifelse(license=="ABRA072734" & year==13, 2,
-                                                           ifelse(license=="ABRA072743" & year==16, 2, 
-                                                                  ifelse(license=="ABRA073188" & year==12, 2, 
-                                                                         ifelse(license=="ABRA075284" & year==10, 1,
-                                                                                ifelse(license=="ABRA075284" & year==15, 2, 
-                                                                                       ifelse(license=="ABRA077455" & year==11, 2, 
-                                                                                              ifelse(license=="ABRA082451" & year==14, 2,
-                                                                                                     ifelse(license=="ABRA082451" & year==16, 3,
-                                                                                                            ifelse(license=="ABRA090239" & year==14, NA,
-                                                                                                                   X)))))))))))))),
+                    ifelse(license=="ABRA000882" & year==13, NA,
+                      ifelse(license=="ABRA000882" & year==15, 2,
+                        ifelse(license=="ABRA060401" & year==15, 2,
+                          ifelse(license=="ABRA060678" & year==16, 2, 
+                            ifelse(license=="ABRA072734" & year==13, 2,
+                              ifelse(license=="ABRA072743" & year==16, 2, 
+                                ifelse(license=="ABRA073188" & year==12, 2, 
+                                  ifelse(license=="ABRA075284" & year==10, 1,
+                                    ifelse(license=="ABRA075284" & year==15, 2, 
+                                      ifelse(license=="ABRA077455" & year==11, 2, 
+                                        ifelse(license=="ABRA082451" & year==14, 2,
+                                          ifelse(license=="ABRA082451" & year==16, 3,
+                                            ifelse(license=="ABRA090239" & year==14, NA,
+                                             X)))))))))))))),
          yrChg = ifelse(!(is.na(nChange)), year, NA))%>%
   filter(!(license %in% c("ABRA017458","ABRA095913") & year %in% c(12,13,14)))
 
@@ -139,6 +139,8 @@ singleRec <- first %>% rbind(last) %>%
 
 licenseUpdate <- licenseUpdate %>% select(license, year)
 
+remove(first, last, change, double)
+
 ### Correct for restaurants that have different license numbers over time
 ### Correct for restaurants that have different license numbers over time
 ### Correct for restaurants that have different license numbers over times
@@ -174,6 +176,4 @@ allTogetherNow <- license %>% left_join(diffName, by="license") %>%
   select(license, year, name, address) %>%
   arrange(license, year)
 
-
-
-
+remove(diffName, diffName1, singleRec)
