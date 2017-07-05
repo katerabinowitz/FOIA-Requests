@@ -1,8 +1,8 @@
 require(dplyr)
+require(tidyr)
 require(rgdal)
+require(geojsonio)
 require(ggmap)
-
-setwd("/Users/katerabinowitz/Documents/DataLensDCOrg/nightlifeTimeline")
 
 ### Double to single address
 ### Double to single address
@@ -29,7 +29,7 @@ geoCoded <- cbind(geoAddress, LatLong)
 
 llFinal <- llFinal %>% select(license, year)
 
-llFinal <- inner_join(llFinal, geoCoded2, by="license")
+llFinal <- inner_join(llFinal, geoCoded, by="license")
 
 ### Assign neighborhoods
 ### Assign neighborhoods
@@ -52,4 +52,54 @@ liquorFinal <- cbind(llFinal, HoodID) %>%
                                           ifelse(year.x==15, "2015", "2016"))))))))) %>% 
               select(-year.x, -year.y, -id)
 
-write.csv(liquorFinal, "nightlife0816.csv")
+#add year open variable (2008 means 2008 or earlier)
+yrOpen <- liquorFinal %>% group_by(license) %>%
+  arrange(year) %>%
+  slice(1) %>%
+  rename(firstYr = year) %>%
+  select(license, firstYr)
+
+liquorFinal <- liquorFinal %>% left_join(yrOpen, by="license")
+
+write.csv(liquorFinal, "./nightlife0816.csv")
+
+geojson_write(liquorFinal, geometry = "point",
+              file = "nightlife.geojson", overwrite = TRUE)
+
+#neighborhood cluster summaries
+cluster = readOGR(dsn="https://opendata.arcgis.com/datasets/f6c703ebe2534fc3800609a07bad8f5b_17.geojson", layer="OGRGeoJSON")
+latLon <- liquorFinal %>% select(lon, lat)
+
+points <- SpatialPoints(latLon, proj4string=CRS(as.character("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")))
+clusterID <- over(points, cluster)
+
+nlCluster <- cbind(liquorFinal, clusterID)
+nlCount <- nlCluster %>% group_by(NBH_NAMES, year) %>%
+                         summarise(licenseN = n()) %>%
+                         subset(year %in% c(2008,2016))
+
+nl16 <- nl %>% subset(year==2016 & licenseN > 9) %>%
+  select(NBH_NAMES)
+
+nl10 <- nl16 %>% left_join(nl, by="NBH_NAMES") %>% select(-X)
+fill <- data.frame("Edgewood, Bloomingdale, Truxton Circle, Eckington", 2008, 0)
+colnames(fill) <- c("NBH_NAMES", "year", "licenseN")
+nlCount <- rbind(nl10, fill) %>% arrange(NBH_NAMES, year, licenseN)
+
+nlGeo <- nlCount %>% spread(year, licenseN)
+
+colnames(nlGeo) <- c("NBH_NAMES", "yr08", "yr16")
+
+nlGeo$NBH_SHORT <- c("Cleveland, Woodley Park", "Palisades, Spring Valley", "Adams Morgan, Kalorama", "Chevy Chase", "Takoma, Brightwood", 
+                     'West End, Foggy Bottom', 'Brookland, Brentwood', 'Glover Park, McLean Gardens', 'Friendship Heights, Tenleytown', 'Georgetown', 
+                     'Ivy City, Trinidad', 'Bloomingdale, Eckington', 'Petworth, Brightwood Park', 'Navy Yard', 'Capitol Hill (SE)', 
+                     'Dupont Circle, K St.','Columbia Heights, Mt. Pleasant', 'Logan Circle', 'Captiol Hill (NE), H St.', 'Chinatown, Downtown', 'Shaw')
+
+nlGeo <- nlGeo %>% mutate(NBH_VSHORT = ifelse(NBH_SHORT == "Bloomingdale, Eckington", "Bloomingdale", 
+                                               ifelse(NBH_SHORT == "Dupont Circle, K St.", "Dupont, K St.",
+                                                      ifelse(NBH_SHORT == "Chinatown, Downtown", "Chinatown", NBH_SHORT))))
+
+write.csv(nlGeo, "nightlifeHoodCount0816.csv", row.names = FALSE)
+
+nlCluster<-merge(cluster,nlGeo,by="NBH_NAMES",all.x=TRUE)
+writeOGR(nlCluster, 'nlCluster.geojson','nlCluster', driver='GeoJSON',check_exists = FALSE)
