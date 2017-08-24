@@ -4,12 +4,12 @@ This is a repo of:
   2. What I receive in response
   3. How I transform those FOIA responses into more usable data
 
-##Let’s FOIA!
+## Let’s FOIA!
 [Here is DC’s FOIA website.](http://dc.gov/page/freedom-information-act-foia)
 
 [DC Open Government Coalition](http://www.dcogc.org/content/foia) is a great resource for learning more FOIA laws, the process, and your rights. 
 
-###My two favorite places to file FOIAs are:
+### My two favorite places to file FOIAs are:
 
 [MuckRock](https://www.muckrock.com/) (also a good place to see and piggy back off of what other people have FOIA-ed)
 
